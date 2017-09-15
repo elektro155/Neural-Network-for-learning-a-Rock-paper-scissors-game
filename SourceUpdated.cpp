@@ -3,21 +3,15 @@
 #include <iostream>
 
 
-using namespace std;
+		 using namespace std;
 
 //http://www.wykop.pl/ramka/3840275/czym-jest-sztuczna-siec-neuronowa-wprowadzenie-dla-kazdego/
 //the source
 //connecting neurons in brain
 /*
-
 layer 1               | layer 2     |       layer 3     | out
-
 in1 to all 4 neurons    neuron2in x4     neuron4in x1   output
-
-
 in2 to all 4 neurons
-
-
 */
 
 //2 input neuron
@@ -32,9 +26,9 @@ public:
 	float out;
 
 	float calculation(int input[], float value[]){ //m,o,val[0],val[1]
-		float res=0;
+		float res = 0;
 		res = (input[0] * value[0]) + (input[1] * value[1]); //addition
-		return (1 / (1 + pow(M_E,(-res)))); //normalizacja, sigmoida
+		return (1 / (1 + pow(M_E, (-res)))); //normalizacja, sigmoida
 	}
 
 };
@@ -51,9 +45,9 @@ public:
 	float out;
 
 	float calculation(float input[], float value[]){ //m,o,val[0],val[1]
-		float res=0; //result
+		float res = 0; //result
 		for (int i = 0; i < 4; i++){
-			res +=(input[i]*value[i]); //addition
+			res += (input[i] * value[i]); //addition
 		}
 		return (1 / (1 + pow(M_E, (-res)))); //normalizacja, sigmoida
 	}
@@ -67,6 +61,66 @@ public:
 	Neuron2in N2[4];
 	Neuron4in N4;
 
+	void circle(){
+		static int stage; //0-7
+		system("cls");//cleaning screen
+		++stage;
+		if (stage == 8) stage = 0;
+		switch (stage)
+		{
+		case 0:{
+			cout << "  |  " << endl;
+			cout << "     " << endl;
+			cout << "     " << endl;
+			break;
+		}
+		case 1:{
+			cout << "    /" << endl;
+			cout << "     " << endl;
+			cout << "     " << endl;
+			break;
+		}
+		case 2:{
+			cout << "     " << endl;
+			cout << "   --" << endl;
+			cout << "     " << endl;
+			break;
+		}
+		case 3:{
+			cout << "     " << endl;
+			cout << "     " << endl;
+			cout << "    \\" << endl;
+			break;
+		}
+		case 4:{
+			cout << "     " << endl;
+			cout << "     " << endl;
+			cout << "  |  " << endl;
+			break;
+		}
+		case 5:{
+			cout << "     " << endl;
+			cout << "     " << endl;
+			cout << "/    " << endl;
+			break;
+		}
+		case 6:{
+			cout << "     " << endl;
+			cout << "--   " << endl;
+			cout << "     " << endl;
+			break;
+		}
+		case 7:{
+			cout << "\\    " << endl;
+			cout << "     " << endl;
+			cout << "     " << endl;
+			break;
+		}
+
+		}//switch
+	}//circle
+
+
 	float simplyThink(int mine, int opp){ //the data just go through the neural network with fixed values for each neuron
 		int result;
 		//loading data from 1st layer to 2nd one
@@ -79,7 +133,7 @@ public:
 		for (int i = 0; i < 4; i++){
 			N4.in[i] = N2[i].out;//loading data
 		}
-		N4.out=N4.calculation(N4.in, N4.val); //loading to output the result of calculation for neuron in 3rd layer
+		N4.out = N4.calculation(N4.in, N4.val); //loading to output the result of calculation for neuron in 3rd layer
 		result = N4.out;
 		return result;
 	}
@@ -109,21 +163,21 @@ public:
 	void showValues(){
 		for (int i = 0; i < 4; i++){
 			for (int j = 0; j < 2; j++){
-				cout << "Neuron nr: " << i+1 << " wejscie " << j+1 << "ma wartosc " << N2[i].values[j] << endl;
+				cout << "Neuron nr: " << i + 1 << " wejscie " << j + 1 << "ma wartosc " << N2[i].values[j] << endl;
 			}
 		}
 		for (int i = 0; i < 4; i++){
-			cout << "Neuron nr: " << 5 << " wejscie " << i+1 << "ma wartosc " << N4.values[i] << endl;
+			cout << "Neuron nr: " << 5 << " wejscie " << i + 1 << "ma wartosc " << N4.values[i] << endl;
 		}
 	}
 
 	//trying out all possibilities of input entries and values for neural networks
 	void learn(){
-		int mine=1; //val 1-3
-		int opp =1;  //val 1-3
-		int min=-2;
-		int max =3;//for max value of being checked for coefficients
-		unsigned long long counter =0;
+		int mine = 1; //val 1-3
+		int opp = 1;  //val 1-3
+		int min = -3;
+		int max = 3;//for max value of being checked for coefficients
+		unsigned long long counter = 0;
 		for (int i = 1; i < 4; i++){ //all possibilities for mine
 			for (int j = 1; j < 4; j++){//all possibilities for opponent
 				for (int a = min; a < max; a++){			//1
@@ -177,13 +231,13 @@ public:
 												}
 											}
 										}
-									}
-								}counter++;cout << "progress: "<< counter <<"/"<<9*pow((max+abs(min)),4)<< endl;
+									}counter++; circle(); cout << "progress: " << counter << "/" << 9 * pow((max + abs(min)), 5) << endl;
+								}//counter++; circle(); cout << "progress: " << counter << "/" << 9 * pow((max + abs(min)), 4) << endl;
 							}//9*max^3
 						}//9*max^2
-					}//9*maxcout<<"Z"<< endl;
-				}//9cout<<"Y"<< endl;
-			}//3cout<<"X"<< endl;
+					}//9*max cout<<"Z"<< endl;
+				}//9 cout<<"Y"<< endl;
+			}//3 cout<<"X"<< endl;
 		}//1cout << "progress: "<< pow((double)(counter/9),(1/12))<< endl;
 	}
 
@@ -201,15 +255,15 @@ public:
 		N4.val[1] = 5;
 		N4.val[2] = 5;
 		N4.val[3] = 2;
-		int a, b,result;
+		int a, b, result;
 		cout << "1 dla kamienia 2 dla nozyczek 3 dla papieru - ty" << endl;
 		cin >> a;
 		cout << "1 dla kamienia 2 dla nozyczek 3 dla papieru - przeciwnik" << endl;
 		cin >> b;
-		result=simplyThink(a, b); //calculating results
-		switch (result){
+		result = simplyThink(a, b); //calculating results
+			switch (result){
 			case 0:{
-				cout << "przegrales"<< endl;
+				cout << "przegrales" << endl;
 				break;
 			}
 			case 1:{
@@ -217,21 +271,13 @@ public:
 				break;
 			}
 			default:{
-				cout << "BLAD!!!"<<endl;
+				cout << "BLAD!!!" << endl;
 			}
 		}
-
-
-
-
 	}
-
-
-
-
-
-
+	
 };
+
 
 
 int main()
@@ -244,7 +290,7 @@ int main()
 		brain.play();  //testing whether network was taught properly
 	}
 
-	cout << "END"  << endl;
+	cout << "END" << endl;
 	//system("pause");
 	return 0;
 }
